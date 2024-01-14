@@ -7,10 +7,10 @@ RUN apt update && \
 
 # Create remote_user with password and SSH access
 RUN useradd -rm -d /home/remote_user -s /bin/bash remote_user && \
-    echo remote_user:Mhskap0737 | chpasswd && \
+    echo remote_user:passs | chpasswd && \
     mkdir /home/remote_user/.ssh && \
     chmod 700 /home/remote_user/.ssh && \
-    echo 'root:Mhskap7607' | chpasswd 
+    echo 'root:passw' | chpasswd 
 
 # Copy public key for remote_user
 COPY id_rsa.pub /home/remote_user/.ssh/authorized_keys
@@ -25,7 +25,7 @@ RUN echo "Match User root,remote_user\nMaxSessions 1" >> /etc/ssh/sshd_config
 # Create proxy users with passwords set using formula Jeff+i^5+3
 RUN for i in $(seq 0 39); do \
         useradd -rm -d /home/proxy${i} -s /bin/bash proxy${i} && \
-        password=$(echo "sshSERVER$(expr $i \* $i \* $i  + 484)") && \
+        password=$(echo "sshSERVER$(expr $i)") && \
         echo proxy${i}:${password} | chpasswd && \
         mkdir /home/proxy${i}/.ssh && \
         chmod 700 /home/proxy${i}/.ssh && \
